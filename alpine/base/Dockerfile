@@ -33,7 +33,9 @@ RUN set -ex \
     wget
 
 # Instala Tinytex (https://yihui.name/tinytex/)
-RUN wget -qO- "https://yihui.name/gh/tinytex/tools/install-unx.sh" | sh
+ADD https://yihui.name/gh/tinytex/tools/install-unx.sh /tmp/
+
+RUN sh /tmp/install-unx.sh
 ENV PATH="/root/bin:${PATH}"
 
 #Iinstala bibliotecas para o abntex2/limarka
