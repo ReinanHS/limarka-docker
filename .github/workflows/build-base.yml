@@ -1,0 +1,40 @@
+name: Build Base Image
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      event:
+        description: "Input your event"
+        required: true
+        default: ""
+
+env:
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
+
+jobs:
+  build:
+    name: Build Base Image
+    runs-on: "ubuntu-latest"
+    env:
+      LIMARKA_VERSION: "${{ matrix.limarka-version }}"
+      PANDOC_VERSION: "${{ matrix.pandoc-version }}"
+      ALPINE_VERSION: "${{ matrix.alpine-version }}"
+    strategy:
+      matrix:
+        limarka-version: ["20.7.13.pre.365"]
+        pandoc-version: ["3.1.13"]
+        alpine-version: ["3.19"]
+      max-parallel: 3
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build
+        run: |
+          docker-compose build alpine-base
+      - name: Push Images to Docker Hub
+        if: ${{ github.event.inputs.event == 'publish' }}
+        run: |
+          docker login --username reinanhs -p $DOCKERHUB_TOKEN
+          docker push reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base
