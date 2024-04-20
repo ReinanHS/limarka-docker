@@ -20,12 +20,14 @@ Formato de tags:
 
 ## Como usar esta imagem
 
+Faça a execução do comando abaixo para executar a imagem:
+
 ```shell
-docker run --rm -it -v $(pwd):/usr/src/trabalho \ 
-    --entrypoint="/bin/bash" \
-    reinanhs/limarka-help:1.0.0 \
-     -c "limarka --version"
+docker pull reinanhs/limarka:latest
+docker run --rm reinanhs/limarka:latest
 ```
+
+Consulte a documentação para aprender a executar comandos mais avançados com o Docker.
 
 ## Changelog
 
