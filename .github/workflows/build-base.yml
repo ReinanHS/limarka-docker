@@ -4,10 +4,14 @@ on:
   push:
   workflow_dispatch:
     inputs:
-      event:
-        description: "Input your event"
+      push:
+        description: "Push Image to docker hub"
         required: true
         default: ""
+      run-tests:
+        description: "Run tests"
+        required: false
+        default: "false"
 
 env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
@@ -33,9 +37,12 @@ jobs:
       - name: Build
         run: |
           docker-compose build alpine-base
+      - name: Test
+        if: ${{ github.event.inputs.run-tests == 'true' }}
+        run: |
           docker run --rm --entrypoint="/bin/sh" -v "$(pwd)/tests/exec-test.sh":/trabalho/exec.sh reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base -c "sh exec.sh"
       - name: Push Images to Docker Hub
-        if: ${{ github.event.inputs.event == 'publish' }}
+        if: ${{ github.event.inputs.push == 'publish' }}
         run: |
           docker login --username reinanhs -p $DOCKERHUB_TOKEN
           docker push reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base
