@@ -12,8 +12,18 @@ FROM alpine:$ALPINE_VERSION
 
 LABEL maintainer="ReinanHS <reinangabriel1520@gmail.com>" version="1.0" license="MIT"
 
+##
+# ---------- env settings ----------
+##
+# --build-arg timezone=America/Sao_Paulo
+ARG timezone
 ARG PANDOC_VERSION=3.1.13
 ARG LIMARKA_VERSION=20.7.13.pre.365
+
+ENV TIMEZONE=${timezone:-"America/Sao_Paulo"} \
+    LANG=pt_BR.UTF-8 \
+    LANGUAGE=pt_BR.UTF-8 \
+    LC_ALL=pt_BR.UTF-8
 
 ##
 # ---------- building ----------
@@ -30,7 +40,8 @@ RUN set -ex \
     ruby-dev \
     ruby \
     unzip \
-    wget
+    wget \
+    git
 
 # Instala Tinytex (https://yihui.name/tinytex/)
 ADD https://yihui.name/gh/tinytex/tools/install-unx.sh /tmp/
@@ -43,19 +54,23 @@ RUN tlmgr install \
   abntex2 \
   babel-portuges \
   bookmark \
+  caption \
   enumitem \
   epstopdf-pkg \
   iftex \
   lastpage \
   lipsum \
   listings \
-  caption \
   memoir \
   microtype \
   pdflscape \
   pdfpages \
+  psnfss \
+  shipunov \
+  texliveonfly \
   textcase \
-  xcolor
+  xcolor \
+  xpatch
 
 # Configurando o idioma português
 ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl

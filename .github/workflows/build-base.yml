@@ -33,6 +33,7 @@ jobs:
       - name: Build
         run: |
           docker-compose build alpine-base
+          docker run --rm --entrypoint="/bin/sh" -v "$(pwd)/tests/exec-test.sh":/trabalho/exec.sh reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base -c "sh exec.sh"
       - name: Push Images to Docker Hub
         if: ${{ github.event.inputs.event == 'publish' }}
         run: |
