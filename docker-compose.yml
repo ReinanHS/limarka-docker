@@ -1,6 +1,4 @@
 # syntax version.
-version: "3.7"
-
 # services list.
 services:
   # base image
@@ -10,3 +8,8 @@ services:
       context: "alpine/base"
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
+  test-alpine-base:
+    image: "reinanhs/limarka:${LIMARKA_VERSION}-alpine-v${ALPINE_VERSION}-base"
+    entrypoint: "sh -c 'sh exec-test.sh'"
+    volumes:
+      - ./tests:/trabalho
