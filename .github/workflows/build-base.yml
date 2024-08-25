@@ -46,3 +46,8 @@ jobs:
         run: |
           docker login --username reinanhs -p $DOCKERHUB_TOKEN
           docker push reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base
+      - name: Scan for vulnerabilities
+        if: ${{ github.event.inputs.push == 'publish' }}
+        uses: crazy-max/ghaction-container-scan@v3
+        with:
+          image: reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base
