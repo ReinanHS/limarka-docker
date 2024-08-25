@@ -51,3 +51,5 @@ jobs:
         uses: crazy-max/ghaction-container-scan@v3
         with:
           image: reinanhs/limarka:${{ matrix.limarka-version }}-alpine-v${{ matrix.alpine-version }}-base
+          dockerfile: ./alpine/base/Dockerfile
+          annotations: true
