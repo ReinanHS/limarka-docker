@@ -50,7 +50,7 @@ RUN set -ex \
 # Instala Tinytex (https://yihui.name/tinytex/)
 ADD https://yihui.name/gh/tinytex/tools/install-unx.sh /tmp/
 
-RUN CTAN_REPO="http://mirror.ctan.org/systems/texlive/tlnet" sh /tmp/install-unx.sh
+RUN CTAN_REPO="https://mirror.ctan.org/systems/texlive/tlnet" sh /tmp/install-unx.sh
 ENV PATH="/root/bin:${PATH}"
 
 # Instala bibliotecas para o abntex2/limarka
