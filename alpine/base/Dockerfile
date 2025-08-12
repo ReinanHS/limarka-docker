@@ -6,7 +6,7 @@
 #
 # @document https://reinanhs.github.io/limarka-template-docs/
 
-ARG ALPINE_VERSION=3.19
+ARG ALPINE_VERSION=3.22
 
 FROM alpine:$ALPINE_VERSION
 
@@ -17,7 +17,7 @@ LABEL maintainer="ReinanHS <reinangabriel1520@gmail.com>" version="1.0" license=
 ##
 # --build-arg timezone=America/Sao_Paulo
 ARG timezone
-ARG PANDOC_VERSION=3.1.13
+ARG PANDOC_VERSION=3.7.0.2
 ARG LIMARKA_VERSION=20.7.13.pre.365
 
 ENV TIMEZONE=${timezone:-"America/Sao_Paulo"} \
@@ -36,6 +36,10 @@ RUN set -ex \
     fontconfig \
     pdfgrep \
     perl \
+    perl-io-socket-ssl \
+    perl-net-ssleay \
+    ca-certificates \
+    openssl \
     poppler-utils \
     ruby-dev \
     ruby \
@@ -46,10 +50,10 @@ RUN set -ex \
 # Instala Tinytex (https://yihui.name/tinytex/)
 ADD https://yihui.name/gh/tinytex/tools/install-unx.sh /tmp/
 
-RUN CTAN_REPO="https://linorg.usp.br/CTAN/systems/texlive/tlnet" sh /tmp/install-unx.sh
+RUN CTAN_REPO="http://mirror.ctan.org/systems/texlive/tlnet" sh /tmp/install-unx.sh
 ENV PATH="/root/bin:${PATH}"
 
-#Iinstala bibliotecas para o abntex2/limarka
+# Instala bibliotecas para o abntex2/limarka
 RUN tlmgr install \
   abntex2 \
   babel-portuges \
@@ -63,6 +67,7 @@ RUN tlmgr install \
   listings \
   memoir \
   microtype \
+  oberdiek \
   pdflscape \
   pdfpages \
   psnfss \
@@ -70,7 +75,15 @@ RUN tlmgr install \
   texliveonfly \
   textcase \
   xcolor \
-  xpatch
+  xpatch \
+  titlesec \
+  subfigure \
+  geometry \
+  graphics \
+  url \
+  hyphen-portuguese \
+  hyperref \
+  collection-fontsrecommended
 
 # Configurando o idioma português
 ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl
