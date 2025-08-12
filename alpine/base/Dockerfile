@@ -100,7 +100,7 @@ RUN apk add --no-cache \
 ENV LANG pt_BR.UTF8
 
 # Instalação do pandoc
-RUN wget -O pandoc.tar.gz "https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-linux-arm64.tar.gz" \
+RUN wget -O pandoc.tar.gz "https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-linux-amd64.tar.gz" \
   && tar xvzf pandoc.tar.gz --strip-components 1 -C /usr/local/ && rm pandoc.tar.gz
 
 RUN gem update --system 3.5.9 
