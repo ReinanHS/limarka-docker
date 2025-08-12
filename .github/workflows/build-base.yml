@@ -27,8 +27,8 @@ jobs:
     strategy:
       matrix:
         limarka-version: ["20.7.13.pre.365"]
-        pandoc-version: ["3.1.13"]
-        alpine-version: ["3.19"]
+        pandoc-version: ["3.7.0.2"]
+        alpine-version: ["3.22"]
       max-parallel: 3
       fail-fast: false
     steps:
